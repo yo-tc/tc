@@ -4,12 +4,9 @@ const path = require('path')
 
 const createWindow = () => {
   let window = new BrowserWindow({
-    title: 'tc browser',
-    //titleBarStyle: 'hidden',
-    backgroundColor: '#000',
-    defaultFontFamily: 'monospace',
+    titleBarStyle: 'hiddenInset',
     width: 800,
-    height: 600,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
@@ -17,7 +14,7 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  window.loadFile('index.html')
+  window.loadFile('terminal.html')
 
   return window
 }
