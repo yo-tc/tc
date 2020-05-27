@@ -1,0 +1,23 @@
+{
+  "name": "tc",
+  "version": "0.0.0",
+  "description": "a browser from the future",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aye-yo/tc.git"
+  },
+  "author": "ghili",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aye-yo/tc/issues"
+  },
+  "homepage": "https://github.com/aye-yo/tc#readme",
+  "devDependencies": {
+    "electron": "^9.0.0"
+  },
+  "dependencies": {}
+}
