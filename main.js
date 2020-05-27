@@ -4,7 +4,7 @@ const path = require('path')
 
 const createWindow = () => {
   let window = new BrowserWindow({
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: 'hidden',
     width: 800,
     height: 800,
     webPreferences: {
