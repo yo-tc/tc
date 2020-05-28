@@ -19,5 +19,7 @@
   "devDependencies": {
     "electron": "^9.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mousetrap": "^1.6.5"
+  }
 }
