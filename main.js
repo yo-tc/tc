@@ -17,8 +17,8 @@ const launch = () => {
 
   terminal = new BrowserView({ modal: true })
   bw.setBrowserView(terminal)
-  terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
-  terminal.setAutoResize({ width: true })
+  terminal.setBounds({ x: 0, y: 35, width: 800, height: 765 })
+  terminal.setAutoResize({ width: true, height: true })
   terminal.webContents.loadFile('terminal.html')
 }
 

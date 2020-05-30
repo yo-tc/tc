@@ -41,8 +41,9 @@ document.addEventListener('keyup', function (e) {
   let input = div.children[0]
 
   if (e.key == 'Enter') {
-    runCommand(input.innerHTML)
+    div.removeChild(div.children[1])
     line = newline()
+    runCommand(input.innerHTML)
   }
   else if (e.key == 'Backspace'){
     let str = input.innerHTML
