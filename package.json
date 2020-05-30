@@ -20,6 +20,6 @@
     "electron": "^9.0.0"
   },
   "dependencies": {
-    "mousetrap": "^1.6.5"
+    "nanohtml": "^1.9.1"
   }
 }
