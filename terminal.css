@@ -1,6 +1,6 @@
 :root {
-  --main-font-color: red;
-  --main-bg-color: white;
+  --main-font-color: white;
+  --main-bg-color: black;
 }
 
 body {
@@ -15,8 +15,9 @@ body {
 #container {
   width: 100%;
   height: 100%;
-  margin-top: 1%;
   margin-left: 1%;
+  margin-top: 1%;
+  margin-bottom: 2%;
 }
 
 .line * {
@@ -32,9 +33,9 @@ body {
 }
 
 @keyframes blinkingText{
-    0%{     color: var(--main-font-color);    }
-    49%{    color: var(--main-font-color); }
+    0%{     color: magenta;    }
+    49%{    color: magenta; }
     60%{    color: transparent; }
     99%{    color: transparent;  }
-    100%{   color: var(--main-font-color);    }
+    100%{   color: magenta;    }
 }

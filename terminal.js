@@ -35,7 +35,9 @@ window.addEventListener('load', function() {
   line = newline()
 })
 
-document.addEventListener('keyup', function (e) {
+document.addEventListener('keydown', function (e) {
+
+  window.scrollTo(0,document.body.scrollHeight)
 
   let div = line.children[1]
   let input = div.children[0]
