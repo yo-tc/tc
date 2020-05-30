@@ -19,7 +19,5 @@
   "devDependencies": {
     "electron": "^9.0.0"
   },
-  "dependencies": {
-    "nanohtml": "^1.9.1"
-  }
+  "dependencies": {}
 }
