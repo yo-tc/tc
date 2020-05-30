@@ -2,7 +2,6 @@
 const { app, BrowserWindow, BrowserView, globalShortcut } = require('electron')
 const path = require('path')
 
-let wrapper;
 let terminal;
 let tab;
 
@@ -10,15 +9,17 @@ const launch = () => {
   let bw = new BrowserWindow({
     titleBarStyle: 'hiddenInset',
     width: 800,
-    height: 800,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true
-    }
+    height: 800
   })
 
   // and load the index.html of the app.
   bw.loadFile('main.html')
+
+  terminal = new BrowserView({ modal: true })
+  bw.setBrowserView(terminal)
+  terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
+  terminal.setAutoResize({ width: true })
+  terminal.webContents.loadFile('terminal.html')
 }
 
 // This method will be called when Electron has finished
@@ -46,14 +47,3 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-// app.on('enter', function() {
-//   /*
-//   read command -> parse command -> do command -> newline div
-//   */
-// })
-// app.on('fn', function() {
-//   /*
-//     if window.view is null switch to tab
-//     if window.view is tab switch to null
-//   */
-// })

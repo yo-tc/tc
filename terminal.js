@@ -1,34 +1,30 @@
-// const path = require('path')
-// const command = require('./command.js')
-
-let caret = `█`
-
-const command = ([ cmd, ...args]) => {
-  switch (cmd) {
-    case 'goto':
-      window.open('http://google.com/search?q='+args.join('+'))
-    break;
-    default:
-      return
-  }
-}
-
-const runCommand = (cmd) => {
-  let parsed = cmd.substring(3)
-  let args = parsed.split(' ')
-  command(args)
-}
+// const command = ([ cmd, ...args]) => {
+//   switch (cmd) {
+//     case 'goto':
+//       window.location = `http://google.com/search?q=${args.join('+')}`
+//     break;
+//     default:
+//       return
+//   }
+// }
+//
+// const runCommand = (cmd) => {
+//   let args = cmd.split(' ')
+//   command(args)
+// }
 
 const newline = () => {
 
   // generate div
   let div = document.createElement("div")
   div.className = 'line'
-  div.innerHTML = `tc ${caret}`
+  div.innerHTML = `
+    <span> tc </span>
+    <div class="input"><div></div><span class="caret">█</span></div>
+  `
 
-  // append div to app-content
-  let contents = document.getElementById('app-contents')
-  contents.appendChild(div)
+  // append div to container
+  document.getElementById('container').appendChild(div)
   window.scrollTo(0,document.body.scrollHeight)
 
   return div;
@@ -39,30 +35,24 @@ window.addEventListener('load', function() {
   line = newline()
 })
 
-window.addEventListener('keyup', function (e) {
-  if (e.key == 'Meta') console.log('Meta pressed')
-})
-
 document.addEventListener('keyup', function (e) {
-  console.log(e.key)
+
+  let div = line.children[1]
+  let input = div.children[0]
 
   if (e.key == 'Enter') {
-    let str = line.innerHTML
-    str = `${str.substring(0, str.length - 1)}`
-    line.innerHTML = str
-    runCommand(line.innerHTML)
+    runCommand(input.innerHTML)
     line = newline()
   }
   else if (e.key == 'Backspace'){
-    let str = line.innerHTML
-    str = `${str.substring(0, str.length - 2)}${caret}`
-    line.innerHTML = str
+    let str = input.innerHTML
+    str = `${str.substring(0, str.length - 1)}`
+    input.innerHTML = str
   }
   else if (e.key == 'CapsLock' || e.key == 'Shift') {
 
   } else {
-    line.innerHTML = line.innerHTML.substring(0, line.innerHTML.length - 1)
-    line.innerHTML += `${e.key}${caret}`
+    input.innerHTML += e.key
   }
 
 })
