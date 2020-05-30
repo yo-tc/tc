@@ -17,15 +17,8 @@ const launch = () => {
     }
   })
 
-  const view = new BrowserView()
-  bw.setBrowserView(view)
-  view.setBounds({ x: 0, y: 100, width: 300, height: 300 })
-  view.webContents.loadFile('terminal.html')
-
   // and load the index.html of the app.
-  bw.loadFile('index.html')
-
-  return bw
+  bw.loadFile('main.html')
 }
 
 // This method will be called when Electron has finished
