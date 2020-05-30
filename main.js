@@ -1,14 +1,14 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, BrowserView, globalShortcut} = require('electron')
+const { app, BrowserWindow, BrowserView, globalShortcut } = require('electron')
 const path = require('path')
-const Mousetrap = require('mousetrap')
 
+let wrapper;
 let terminal;
 let tab;
 
 const launch = () => {
   let bw = new BrowserWindow({
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     width: 800,
     height: 800,
     webPreferences: {
@@ -17,7 +17,10 @@ const launch = () => {
     }
   })
 
-  tab = new BrowserView()
+  const view = new BrowserView()
+  bw.setBrowserView(view)
+  view.setBounds({ x: 0, y: 100, width: 300, height: 300 })
+  view.webContents.loadFile('terminal.html')
 
   // and load the index.html of the app.
   bw.loadFile('index.html')
@@ -29,7 +32,7 @@ const launch = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  terminal = launch()
+  launch()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

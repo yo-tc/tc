@@ -1,7 +1,24 @@
-// const {app, BrowserWindow} = require('electron')
 // const path = require('path')
-//
+// const command = require('./command.js')
+
 let caret = `█`
+
+const command = ([ cmd, ...args]) => {
+  switch (cmd) {
+    case 'goto':
+      window.open('http://google.com/search?q='+args.join('+'))
+    break;
+    default:
+      return
+  }
+}
+
+const runCommand = (cmd) => {
+  let parsed = cmd.substring(3)
+  let args = parsed.split(' ')
+  command(args)
+}
+
 const newline = () => {
 
   // generate div
@@ -12,7 +29,7 @@ const newline = () => {
   // append div to app-content
   let contents = document.getElementById('app-contents')
   contents.appendChild(div)
-  window.scrollTo(0,document.body.scrollHeight);
+  window.scrollTo(0,document.body.scrollHeight)
 
   return div;
 }
@@ -23,9 +40,17 @@ window.addEventListener('load', function() {
 })
 
 window.addEventListener('keyup', function (e) {
+  if (e.key == 'Meta') console.log('Meta pressed')
+})
+
+document.addEventListener('keyup', function (e) {
   console.log(e.key)
 
   if (e.key == 'Enter') {
+    let str = line.innerHTML
+    str = `${str.substring(0, str.length - 1)}`
+    line.innerHTML = str
+    runCommand(line.innerHTML)
     line = newline()
   }
   else if (e.key == 'Backspace'){
