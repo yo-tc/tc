@@ -4,12 +4,11 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: black;
-  font-family: Menlo;
 }
 
 header {
   width: 100%;
-  height: 5%;
+  height: 3em;
   margin: 0;
   padding: 0;
 }
@@ -24,16 +23,18 @@ nav {
 }
 
 #container {
-  margin: 0% 1% 2% 1%; /* top right bottom left */
+  margin: 0% 1% 1.5% 1%; /* top right bottom left */
   position: relative;
+  height: auto;
   background-color: black;
   overflow-y: scroll;
 }
 
 div.line * {
+  margin-top: 1%;
   font-size: 0.9em;
   color: white;
-  font-family: Menlo;
+  font-family: Menlo, 'Roboto Mono', monospace;
   border: none;
   display: inline;
 }
@@ -53,6 +54,7 @@ div.line * {
 #tab-container {
   width: inherit;
   height: inherit;
+  position: fixed;
   display: none
 }
 

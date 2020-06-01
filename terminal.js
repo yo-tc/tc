@@ -1,24 +1,32 @@
 // const { ipcRenderer } = require('electron')
 
 const command = ([ cmd, ...args]) => {
-  switch (cmd) {
-    case 'goto':
-      // get tab-view
-      let tab = document.getElementById('tab-container')
-      tab.style.display = "flex"
-      tab.innerHTML = `<webview class="tab" src="http://google.com/search?q=${args.join('+')}"></webview>`
-      console.log(tab.innerHTML)
-      // set container.height to 5%
-      document.getElementById('container').style.height = "5%"
-    break;
-    default:
-      return
+  if (cmd == 'goto') {
+    // get tab-view
+    let tab = document.getElementById('tab-container')
+    tab.style.display = "flex"
+
+    let [ url, rest ] = args
+    rest ? tab.innerHTML = `<webview class="tab" id="view" src="http://google.com/search?q=${args.join('+')}"></webview>`
+    : tab.innerHTML = `<webview class="tab" id="view" src="http://${url}"></webview>`
+
+    // set container.height to 5%
+    document.getElementById('container').style.height = "1em"
+    document.getElementById('container').scrollTop = document.getElementById('container').scrollHeight
   }
-  // if (cmd == 'goto') {
-  //
-  //   let goto = new Event('goto', { args: args });
-  //   window.dispatchEvent(goto);
-  // }
+  if (cmd == 'back') {
+    let view = document.getElementById('view')
+    view.goBack()
+  }
+  if (cmd == 'forward') {
+    let view = document.getElementById('view')
+    view.goForward()
+  }
+  if (cmd == 'close') {
+    let tab = document.getElementById('tab-container')
+    tab.style.display = "none"
+    document.getElementById('container').style.height = "auto"
+  }
 }
 
 const runCommand = (cmd) => {
