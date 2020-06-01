@@ -1,17 +1,30 @@
-// const command = ([ cmd, ...args]) => {
-//   switch (cmd) {
-//     case 'goto':
-//       window.location = `http://google.com/search?q=${args.join('+')}`
-//     break;
-//     default:
-//       return
-//   }
-// }
-//
-// const runCommand = (cmd) => {
-//   let args = cmd.split(' ')
-//   command(args)
-// }
+// const { ipcRenderer } = require('electron')
+
+const command = ([ cmd, ...args]) => {
+  switch (cmd) {
+    case 'goto':
+      // get tab-view
+      let tab = document.getElementById('tab-container')
+      tab.style.display = "flex"
+      tab.innerHTML = `<webview class="tab" src="http://google.com/search?q=${args.join('+')}"></webview>`
+      console.log(tab.innerHTML)
+      // set container.height to 5%
+      document.getElementById('container').style.height = "5%"
+    break;
+    default:
+      return
+  }
+  // if (cmd == 'goto') {
+  //
+  //   let goto = new Event('goto', { args: args });
+  //   window.dispatchEvent(goto);
+  // }
+}
+
+const runCommand = (cmd) => {
+  let args = cmd.split(' ')
+  command(args)
+}
 
 const newline = () => {
 
@@ -24,8 +37,10 @@ const newline = () => {
   `
 
   // append div to container
-  document.getElementById('container').appendChild(div)
-  window.scrollTo(0,document.body.scrollHeight)
+  let container = document.getElementById('container')
+  container.appendChild(div)
+  window.scrollTo(0, document.getElementById('container').scrollHeight)
+  container.scrollTop = container.scrollHeight
 
   return div;
 }
@@ -35,9 +50,18 @@ window.addEventListener('load', function() {
   line = newline()
 })
 
+// NOTE: prevent unnwannted scrolling on 'Space' keydown
+window.addEventListener('keydown', function(e) {
+  if(e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+});
+
 document.addEventListener('keydown', function (e) {
 
-  window.scrollTo(0,document.body.scrollHeight)
+  // window.scrollTo(0, document.getElementById('container').scrollHeight)
+  let container = document.getElementById('container')
+  container.scrollTop = container.scrollHeight
 
   let div = line.children[1]
   let input = div.children[0]

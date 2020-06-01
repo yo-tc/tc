@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, BrowserView, globalShortcut } = require('electron')
+const { app, BrowserWindow, BrowserView, ipcMain } = require('electron')
 const path = require('path')
 
 let terminal;
@@ -9,17 +9,14 @@ const launch = () => {
   let bw = new BrowserWindow({
     titleBarStyle: 'hiddenInset',
     width: 800,
-    height: 800
+    height: 800,
+    webPreferences: {
+      webviewTag: true
+    }
   })
 
   // and load the index.html of the app.
   bw.loadFile('main.html')
-
-  terminal = new BrowserView({ modal: true })
-  bw.setBrowserView(terminal)
-  terminal.setBounds({ x: 0, y: 35, width: 800, height: 765 })
-  terminal.setAutoResize({ width: true, height: true })
-  terminal.webContents.loadFile('terminal.html')
 }
 
 // This method will be called when Electron has finished
