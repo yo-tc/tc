@@ -37,6 +37,7 @@ div.line * {
   font-family: Menlo, 'Roboto Mono', monospace;
   border: none;
   display: inline;
+  overflow-wrap: break-word;
 }
 
 .caret {

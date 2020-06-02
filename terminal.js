@@ -1,13 +1,17 @@
 // const { ipcRenderer } = require('electron')
 
-const command = ([ cmd, ...args]) => {
+const command = async ([ cmd, ...args]) => {
   if (cmd == 'goto') {
     // get tab-view
     let tab = document.getElementById('tab-container')
     tab.style.display = "flex"
 
+    let pasted = await navigator.clipboard.readText()
     let [ url, rest ] = args
-    rest ? tab.innerHTML = `<webview class="tab" id="view" src="http://google.com/search?q=${args.join('+')}"></webview>`
+    console.log(url, url == 'pasted')
+    // url == 'pasted' ? url = pasted : url = url
+    url == 'pasted' ? tab.innerHTML = `<webview class="tab" id="view" src="${await navigator.clipboard.readText()}"></webview>`
+    : rest || !url.includes('.') ? tab.innerHTML = `<webview class="tab" id="view" src="http://google.com/search?q=${args.join('+')}"></webview>`
     : tab.innerHTML = `<webview class="tab" id="view" src="http://${url}"></webview>`
 
     // set container.height to 5%
@@ -54,7 +58,8 @@ const newline = () => {
 }
 
 let line;
-window.addEventListener('load', function() {
+window.addEventListener('load', async function() {
+  console.log(await navigator.clipboard.readText())
   line = newline()
 })
 
@@ -84,7 +89,7 @@ document.addEventListener('keydown', function (e) {
     str = `${str.substring(0, str.length - 1)}`
     input.innerHTML = str
   }
-  else if (e.key == 'CapsLock' || e.key == 'Shift') {
+  else if (e.key == 'CapsLock' || e.key == 'Shift' || e.key == 'Meta') {
 
   } else {
     input.innerHTML += e.key
