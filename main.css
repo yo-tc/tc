@@ -40,6 +40,17 @@ div.line * {
   overflow-wrap: break-word;
 }
 
+.ls {
+  font-size: 0.8em;
+  margin-left: 3%;
+}
+
+.ls:hover {
+  background-color: magenta;
+  transition: 0.1s ease-in;
+  opacity: 0.95;
+}
+
 .caret {
     animation:blinkingText 0.9s infinite;
 }
@@ -56,7 +67,6 @@ div.line * {
   width: inherit;
   height: inherit;
   position: fixed;
-  display: none
 }
 
 webview.tab {
