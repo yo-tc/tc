@@ -21,7 +21,6 @@ document.addEventListener('ls', () => {
     // generate div
     let div = document.createElement("div")
     div.className = 'line ls'
-    div.dataset.src = tabs[i].src
     div.innerHTML = `
       <div class="input"> ${i+1}|: ${tabs[i].getTitle()} ${tabs[i].src}</div>
     `
@@ -37,6 +36,8 @@ document.addEventListener('esc', () => {
   document.getElementById('container').style.height = "auto"
 })
 
-document.addEventListener('home', ({ detail }) => console.log('return to home directory'))
+document.addEventListener('home', () => console.log('return to home directory'))
 
 document.addEventListener('mkdir', ({ detail }) => console.log('create new directory'))
+
+document.addEventListener('cd', ({ detail }) => console.log('enter a directory'))

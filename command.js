@@ -66,6 +66,9 @@ document.addEventListener('keydown', async function (e) {
   else if (e.key == 'CapsLock' || e.key == 'Shift' || e.key == 'Meta') {
 
   }
+  else if (e.key == 'ArrowUp' || e.key == 'ArrowDown' || e.key == 'ArrowRight' || e.key == 'ArrowLeft') {
+
+  }
   else if (keysPressed['Meta'] && event.key == 'v') {
     let pasted = await navigator.clipboard.readText()
     input.innerHTML += pasted
