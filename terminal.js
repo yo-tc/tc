@@ -36,6 +36,38 @@ document.addEventListener('esc', () => {
   document.getElementById('container').style.height = "auto"
 })
 
+document.addEventListener('help', () => {
+  let div = document.createElement("div")
+  div.style.marginLeft = "3%"
+  div.style.marginTop = "1%"
+  div.style.marginBottom = "1%"
+  div.style.lineHeight = "2em"
+
+  div.innerHTML = `
+      <span style="color: magenta;">goto &ltquery&gt</span> : go to site or perform a search, query can be several terms
+      <br>
+      <span style="color: magenta;">open &ltquery&gt</span> : open a new tab and goto &ltquery&gt
+      <br>
+      <span style="color: magenta;">back</span>       : go to the previous page
+      <br>
+      <span style="color: magenta;">forward</span>    : go to the next page
+      <br>
+      <span style="color: magenta;">esc</span>        : escape to terminal mode, press &quotesc&quot key to open up page again
+      <br>
+      <span style="color: magenta;">home</span>       : return to the home directory
+      <br>
+      <span style="color: magenta;">ls</span>         : list all the tabs on the working directory
+      <br>
+      <span style="color: magenta;">mkdir &ltname&gt</span> : create a new directory
+      <br>
+      <span style="color: magenta;">cd &ltname&gt</span>    : enter a directory
+  `
+
+  container.appendChild(div)
+  window.scrollTo(0, container.scrollHeight)
+  container.scrollTop = container.scrollHeight
+})
+
 document.addEventListener('home', () => console.log('return to home directory'))
 
 document.addEventListener('mkdir', ({ detail }) => console.log('create new directory'))
