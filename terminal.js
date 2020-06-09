@@ -68,6 +68,10 @@ document.addEventListener('help', () => {
   container.scrollTop = container.scrollHeight
 })
 
+document.addEventListener('window', () => {
+  let modal = window.open('https://www.google.com/', '_blank')
+})
+
 document.addEventListener('home', () => console.log('return to home directory'))
 
 document.addEventListener('mkdir', ({ detail }) => console.log('create new directory'))

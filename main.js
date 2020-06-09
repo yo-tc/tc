@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, BrowserView } = require('electron')
 const path = require('path')
 
 let terminal;
-let tab;
+let tabs = [];
+let currentTab;
 
 const launch = () => {
   let bw = new BrowserWindow({
@@ -11,12 +12,27 @@ const launch = () => {
     width: 800,
     height: 800,
     webPreferences: {
-      webviewTag: true
+      webviewTag: true,
+      nativeWindowOpen: true
     }
   })
 
   // and load the index.html of the app.
   bw.loadFile('main.html')
+
+  const view = new BrowserView()
+  bw.setBrowserView(view)
+  view.setAutoResize({ width: true, height: true })
+
+  bw.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
+    event.preventDefault()
+    // frameName can be used to distinguish between `goto` and `open`
+    // i.e. frameName == 'goto' means we change the currentTab, else means make a new tab
+    // or use 'will-navigate' event
+    view.setBounds({ x: 0, y: 150, width: 800, height: 650 })
+    view.webContents.loadURL('http://oryoki.io/')
+  })
+
 }
 
 // This method will be called when Electron has finished
