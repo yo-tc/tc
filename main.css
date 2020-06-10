@@ -4,9 +4,6 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: black;
-  font-size: 0.9em;
-  color: white;
-  font-family: Menlo, 'Roboto Mono', monospace;
 }
 
 header {
@@ -23,56 +20,4 @@ nav {
   position: fixed;
   background-color: black;
   z-index: 2;
-}
-
-#container {
-  margin: 1% 1% 1.5% 1.5%; /* top right bottom left */
-  position: relative;
-  height: auto;
-  background-color: black;
-  overflow-y: scroll;
-}
-
-div.line * {
-  margin-top: 1%;
-  border: none;
-  display: inline;
-  overflow-wrap: break-word;
-}
-
-.ls {
-  font-size: 1em;
-  margin-left: 3%;
-}
-
-.ls:hover {
-  background-color: magenta;
-  transition: 0.1s ease-in;
-  opacity: 0.95;
-}
-
-.caret {
-    animation:blinkingText 0.9s infinite;
-}
-
-@keyframes blinkingText{
-    0%{     color: magenta;    }
-    49%{    color: magenta; }
-    60%{    color: transparent; }
-    99%{    color: transparent;  }
-    100%{   color: magenta;    }
-}
-
-#tab-container {
-  width: inherit;
-  height: inherit;
-  position: fixed;
-}
-
-webview.tab {
-  margin: 0;
-  padding: 0;
-  width: inherit;
-  height: inherit;
-  display: inherit;
 }

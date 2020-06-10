@@ -2,9 +2,21 @@
 const { app, BrowserWindow, BrowserView } = require('electron')
 const path = require('path')
 
+let main;
 let terminal;
-let tabs = [];
-let currentTab;
+let tab;
+let tabs = {};
+
+const newview = (url = 'https://google.com') => {
+  let view = new BrowserView()
+  main.addBrowserView(view)
+  // view.setBounds({ x: 0, y: 100, width: 800, height: 700 })
+  view.setAutoResize({ width: true })
+  // view.webContents.loadURL(url)
+  tabs[url] = view
+
+  return view
+}
 
 const launch = () => {
   let bw = new BrowserWindow({
@@ -17,21 +29,22 @@ const launch = () => {
     }
   })
 
-  // and load the index.html of the app.
   bw.loadFile('main.html')
 
-  const view = new BrowserView()
-  bw.setBrowserView(view)
-  view.setAutoResize({ width: true, height: true })
+  // NOTE:
+  // browse mode:
+  // - terminal has .x = 0, .y = 40, .width = 800, .height = 60
+  // - tab has .x = 0, .y = 100, .width = 800, .height = 700
+  // terminal mode:
+  // - terminal has .x = 0, .y = 40, .width = 800, .height = 760
+  // - tab is undefined
+  terminal = new BrowserView()
+  bw.addBrowserView(terminal)
+  terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
+  terminal.setAutoResize({ width: true, height: true })
+  terminal.webContents.loadFile('terminal.html')
 
-  bw.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
-    event.preventDefault()
-    // frameName can be used to distinguish between `goto` and `open`
-    // i.e. frameName == 'goto' means we change the currentTab, else means make a new tab
-    // or use 'will-navigate' event
-    view.setBounds({ x: 0, y: 150, width: 800, height: 650 })
-    view.webContents.loadURL('http://oryoki.io/')
-  })
+  return bw
 
 }
 
@@ -39,7 +52,7 @@ const launch = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  launch()
+  main = launch()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

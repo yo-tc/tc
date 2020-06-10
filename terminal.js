@@ -69,7 +69,7 @@ document.addEventListener('help', () => {
 })
 
 document.addEventListener('window', () => {
-  let modal = window.open('https://www.google.com/', '_blank')
+  let modal = window.open('http://oryoki.io/', '_blank')
 })
 
 document.addEventListener('home', () => console.log('return to home directory'))
