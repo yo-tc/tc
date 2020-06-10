@@ -10,9 +10,9 @@ let tabs = {};
 const newview = (url = 'https://google.com') => {
   let view = new BrowserView()
   main.addBrowserView(view)
-  // view.setBounds({ x: 0, y: 100, width: 800, height: 700 })
+  view.setBounds({ x: 0, y: 100, width: 800, height: 700 })
   view.setAutoResize({ width: true })
-  // view.webContents.loadURL(url)
+  view.webContents.loadURL(url)
   tabs[url] = view
 
   return view
@@ -43,6 +43,25 @@ const launch = () => {
   terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
   terminal.setAutoResize({ width: true, height: true })
   terminal.webContents.loadFile('terminal.html')
+
+  terminal.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
+    event.preventDefault()
+    if (frameName == 'open') {
+      terminal.setBounds({ x: 0, y: 40, width: 800, height: 60 })
+      tab = newview(url)
+    } else if (frameName == 'goto') {
+      tab.webContents.loadURL(url)
+    } else if (frameName == 'close') {
+      terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
+      tab.destroy()
+    } else if (frameName == 'switch') {
+      tab = tabs[url]
+    } else if (frameName == 'back') {
+      tab.webContents.goBack()
+    } else if (frameName == 'forward') {
+      tab.webContents.goForward()
+    }
+  })
 
   return bw
 

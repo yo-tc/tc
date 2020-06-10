@@ -1,3 +1,5 @@
+// TERMINAL LISTENERS
+
 document.addEventListener('click', (e) => {
   let args = e.target.innerHTML.split(' ')
   let [url, ...rest] = args.reverse()
@@ -69,7 +71,7 @@ document.addEventListener('help', () => {
 })
 
 document.addEventListener('window', () => {
-  let modal = window.open('http://oryoki.io/', '_blank')
+  let modal = window.open('http://oryoki.io/', 'open')
 })
 
 document.addEventListener('home', () => console.log('return to home directory'))
@@ -77,3 +79,44 @@ document.addEventListener('home', () => console.log('return to home directory'))
 document.addEventListener('mkdir', ({ detail }) => console.log('create new directory'))
 
 document.addEventListener('cd', ({ detail }) => console.log('enter a directory'))
+
+// TAB LISTENERS
+const genId = () => '_' + Math.random().toString(36).substr(2, 9)
+
+document.addEventListener('goto', ({ detail }) => {
+
+  let [ url, rest ] = detail
+
+  let src = url.startsWith('http') ? url
+  : rest || !url.includes('.') ? `http://google.com/search?q=${detail.join('+')}`
+  : `https://${url}`
+
+  window.open(src, 'goto')
+})
+
+document.addEventListener('open', ({ detail }) => {
+
+    let [ url, rest ] = detail
+
+    let src = url.startsWith('http') ? url
+    : rest || !url.includes('.') ? `http://google.com/search?q=${detail.join('+')}`
+    : `https://${url}`
+
+    window.open(src, 'open')
+})
+
+document.addEventListener('switch', ({ detail }) => {
+    console.log('switch', detail)
+})
+
+document.addEventListener('back', () => {
+  window.open('', 'back')
+})
+
+document.addEventListener('forward', ({ detail }) => {
+  window.open('', 'forward')
+})
+
+document.addEventListener('close', () => {
+  window.open('', 'close')
+})
