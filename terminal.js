@@ -1,22 +1,24 @@
 // TERMINAL LISTENERS
+let list = []
+let current = ''
+
+// only called from main.js
+const nav = (url) => {
+  let ev = new CustomEvent(`goto`, { detail: [url] })
+  document.dispatchEvent(ev)
+}
 
 document.addEventListener('click', (e) => {
   let args = e.target.innerHTML.split(' ')
   let [url, ...rest] = args.reverse()
   if (url.startsWith('http')) {
-    let tabs = document.getElementById('tab-container')
-    for (var i = 0; i < tabs.children.length; i++) {
-      if (tabs.children[i].src == url) {
-        tabs.removeChild(tabs.children[i])
-        let ev = new CustomEvent(`open`, { detail: [url] })
-        document.dispatchEvent(ev)
-      }
-    }
+    let ev = new CustomEvent(`switch`, { detail: url })
+    document.dispatchEvent(ev)
   }
 })
 
 document.addEventListener('ls', () => {
-  let tabs = document.getElementById('tab-container').children
+  let tabs = list
   let container = document.getElementById('container')
 
   for (var i = 0; i < tabs.length; i++) {
@@ -24,7 +26,7 @@ document.addEventListener('ls', () => {
     let div = document.createElement("div")
     div.className = 'line ls'
     div.innerHTML = `
-      <div class="input"> ${i+1}|: ${tabs[i].getTitle()} ${tabs[i].src}</div>
+      <div class="input"> ${i+1}|: ${tabs[i]}</div>
     `
 
     container.appendChild(div)
@@ -34,8 +36,7 @@ document.addEventListener('ls', () => {
 })
 
 document.addEventListener('esc', () => {
-  document.getElementById('tab-container').style.display = "none"
-  document.getElementById('container').style.height = "auto"
+  window.open('', 'esc')
 })
 
 document.addEventListener('help', () => {
@@ -70,10 +71,6 @@ document.addEventListener('help', () => {
   container.scrollTop = container.scrollHeight
 })
 
-document.addEventListener('window', () => {
-  let modal = window.open('http://oryoki.io/', 'open')
-})
-
 document.addEventListener('home', () => console.log('return to home directory'))
 
 document.addEventListener('mkdir', ({ detail }) => console.log('create new directory'))
@@ -91,6 +88,8 @@ document.addEventListener('goto', ({ detail }) => {
   : rest || !url.includes('.') ? `http://google.com/search?q=${detail.join('+')}`
   : `https://${url}`
 
+  let index = list.indexOf(current)
+  list[index] = src
   window.open(src, 'goto')
 })
 
@@ -102,11 +101,13 @@ document.addEventListener('open', ({ detail }) => {
     : rest || !url.includes('.') ? `http://google.com/search?q=${detail.join('+')}`
     : `https://${url}`
 
+    current = src
+    list.push(src)
     window.open(src, 'open')
 })
 
 document.addEventListener('switch', ({ detail }) => {
-    console.log('switch', detail)
+    window.open(detail, 'switch')
 })
 
 document.addEventListener('back', () => {

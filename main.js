@@ -10,8 +10,12 @@ let tabs = {};
 const newview = (url = 'https://google.com') => {
   let view = new BrowserView()
   main.addBrowserView(view)
-  view.setBounds({ x: 0, y: 100, width: 800, height: 700 })
-  view.setAutoResize({ width: true })
+  // make view expand to max allowed
+  let width = main.getBounds().width
+  let height = main.getBounds().height - terminal.getBounds().height
+
+  view.setBounds({ x: 0, y: 100, width: width, height: height })
+  view.setAutoResize({ width: true, height: true })
   view.webContents.loadURL(url)
   tabs[url] = view
 
@@ -41,26 +45,52 @@ const launch = () => {
   terminal = new BrowserView()
   bw.addBrowserView(terminal)
   terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
-  terminal.setAutoResize({ width: true, height: true })
+  terminal.setAutoResize({ width: true })
   terminal.webContents.loadFile('terminal.html')
+
+  tab = new BrowserView()
+  tab.webContents.loadURL('https://google.com')
 
   terminal.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
     event.preventDefault()
     if (frameName == 'open') {
       terminal.setBounds({ x: 0, y: 40, width: 800, height: 60 })
-      tab = newview(url)
+      if (tab) {
+        bw.removeBrowserView(tab)
+        tab = newview(url)
+      } else {
+        tab = newview(url)
+      }
     } else if (frameName == 'goto') {
       tab.webContents.loadURL(url)
+    } else if (frameName == 'esc') {
+      if (terminal.getBounds().height == 760) {
+        terminal.setBounds({ x: 0, y: 40, width: 800, height: 60 })
+        bw.addBrowserView(tab)
+      } else {
+        terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
+        bw.removeBrowserView(tab)
+      }
     } else if (frameName == 'close') {
       terminal.setBounds({ x: 0, y: 40, width: 800, height: 760 })
       tab.destroy()
     } else if (frameName == 'switch') {
+      bw.removeBrowserView(tab)
       tab = tabs[url]
+      bw.addBrowserView(tab)
     } else if (frameName == 'back') {
       tab.webContents.goBack()
     } else if (frameName == 'forward') {
       tab.webContents.goForward()
     }
+
+    tab.webContents.on('will-navigate', async (event, url) => {
+      try {
+        await terminal.webContents.executeJavaScript(`nav(${JSON.stringify(url)})`)
+      } catch (e) {
+        console.log(e);
+      }
+    })
   })
 
   return bw
