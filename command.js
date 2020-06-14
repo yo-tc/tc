@@ -21,8 +21,8 @@ const newline = () => {
   // append div to container
   let container = document.getElementById('container')
   container.appendChild(div)
-  window.scrollTo(0, document.getElementById('container').scrollHeight)
-  container.scrollTop = container.scrollHeight
+  window.scrollTo(0, document.body.scrollHeight)
+  document.body.scrollTop = document.body.scrollHeight
 
   return div;
 }
@@ -46,9 +46,8 @@ document.addEventListener('keyup', () => {
 document.addEventListener('keydown', async function (e) {
   keysPressed[event.key] = true;
 
-  window.scrollTo(0, document.getElementById('container').scrollHeight)
-  let container = document.getElementById('container')
-  container.scrollTop = container.scrollHeight
+  window.scrollTo(0, document.body.scrollHeight)
+  document.body.scrollTop = document.body.scrollHeight
 
   let div = line.children[1]
   let input = div.children[0]
